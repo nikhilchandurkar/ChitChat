@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import mongoose,{ Schema, model } from "mongoose";
 
 const schema = new Schema({
    name: {
@@ -12,18 +12,17 @@ const schema = new Schema({
    },
    password: {
       type: String,
-
       required: true,
       Select: false,
    },
    avtar: {
       public_id: {
          type: String,
-         required: true,
+         // required: true,
       },
       url: {
          type: String,
-         required: true,
+         // required: true,
       },
    },
 },
@@ -32,4 +31,4 @@ const schema = new Schema({
    });
 
 
-export const User = models.user || model("User", schema);
+export const User = mongoose.models.user || model("User", schema);
