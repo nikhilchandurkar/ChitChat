@@ -3,6 +3,7 @@ import express, { urlencoded } from "express";
 import userRoute from "./routes/user.js"
 import { connectDB } from "./utils/features.js";
 import dotenv from "dotenv"
+import { errorMiddleware } from "./middlewares/error.js";
 
 
 dotenv.config({
@@ -20,13 +21,16 @@ const app =express()
 app.use(express.json());
 // app.use(urlencoded()) // not using due to avatar file 
 
-
-
 // routes
 app.use("/",userRoute)
 
 app.use("/user", userRoute);
 
+
+// puth this middleware in end
+app.use(errorMiddleware)
+
 app.listen(port,()=>{
     console.log(`server is running at port no ${port}`);
 });
+
