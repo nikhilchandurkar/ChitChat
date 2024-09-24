@@ -1,54 +1,37 @@
-import { request } from "express";
-import { User } from "../models/user.js"
-import { sendToken } from "../utils/features.js";
+import { User } from "../models/user.js";
+import { cookieOption, sendToken } from "../utils/features.js";
 import { compare } from "bcrypt";
 import { tryCatch } from "../middlewares/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 
-// create new user  save in db and save in cookie
-const newUser = async (req, res) => {
-
+// Create new user, save in DB, and set a cookie
+const newUser = tryCatch(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
 
-
     const avatar = {
-        public_id: "hhhh",
-        url: "fjbbb",
+        public_id,
+        url,
+    };
+
+    // Check if username already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        return next(new ErrorHandler("Username already exists", 400));
     }
 
+    // Create user
     const user = await User.create({
         name,
         bio,
         username,
         password,
-        // avatar
+        avatar, // corrected to match the schema (avtar instead of avatar)
     });
 
-    sendToken(res, user, 201, "user Created")
+    sendToken(res, user, 201, "User Created");
+});
 
-
-}
-
-// const login = async (req, res, next) => {
-//     try {
-//         const { username, password } = req.body;
-//         const user = await User.findOne({ username }).select("+password");
-//         // console.log(err.message)
-//         if (!user)
-//             return next(new Error("Invalid username or password"));
-//         // return res.status(400).json({ message: "invalid username or password " })
-
-//         const isMatch = await compare(password, user.password);
-//         if (!isMatch)
-//             return next(new Error("Invalid password or password"));
-//         // return res.status(400).json({ message: "Invalid username or password" })
-//         sendToken(res, user, 201, `welcome back ${user.name}`)
-//     } catch (error) {
-//         next(error);
-//     }
-
-// }
-
+// Login user
 const login = tryCatch(async (req, res, next) => {
     const { username, password } = req.body;
 
@@ -56,27 +39,57 @@ const login = tryCatch(async (req, res, next) => {
     const user = await User.findOne({ username }).select("+password");
 
     if (!user) {
-        return next(new ErrorHandler("Invalid username or password"));
+        return next(new ErrorHandler("Invalid username or password", 404));
     }
 
     // Compare the provided password with the stored password
     const isMatch = await compare(password, user.password);
     if (!isMatch) {
-        return next(new ErrorHandler("Invalid username or password")); // Fixed the duplicated message
+        return next(new ErrorHandler("Invalid username or password", 404));
     }
 
     // Send token if authentication is successful
     sendToken(res, user, 201, `Welcome back ${user.name}`);
 });
 
+// Get user profile
+const getMyProfile = tryCatch(async (req, res, next) => {
+    const user = await User.findById(req.user).select("-password");
+
+    if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        user,
+    });
+});
+
+const logout = tryCatch(async (req, res, next) => {
+
+    res.status(200).cookie("chitChat-Token", "", {
+        ...cookieOption, maxAge: 0
+    }).json({
+        success: true,
+        message: "logout"
+    });
+});
+
+const searchUser = async (req, res, next) => {
+    try {
+        const { query } = req.query;
+
+        res.status(200).json({
+            success: true,
+            message: query,
+            
+        });
+    } catch (error) {
+        console.log(error)
+        next(error); 
+    }
+};
 
 
-
-const getMyProfile = async (req, res) => {
-    // return await User.findById()
-}
-
-
-
-
-export { login, newUser, getMyProfile }
+export { login, newUser, getMyProfile, logout, searchUser };

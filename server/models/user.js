@@ -13,10 +13,10 @@ const schema = new Schema({
    },
    password: {
       type: String,
-      Select: false,
+      select: false, 
       required: true,
    },
-   avtar: {
+   avatar: {
       public_id: {
          type: String,
          required: true,
@@ -27,16 +27,15 @@ const schema = new Schema({
       },
    },
 },
-   {
-      timestamps: true
-   });
+{
+   timestamps: true
+});
 
-
-   // password hashing
+// password hashing
 schema.pre("save", async function (next) {
-   if (!this.isModified("password")) next();
+   if (!this.isModified("password")) return next(); // Call next only when password is not modified
    this.password = await hash(this.password, 10);
-})
+   next(); // Call next after password is hashed
+});
 
-
-export const User = mongoose.models.user || model("User", schema);
+export const User = mongoose.models.User || model("User", schema);
