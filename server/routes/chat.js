@@ -2,7 +2,7 @@ import { getMyProfile, login, newUser, logout, searchUser } from "../controllers
 import express from "express";
 import { singleAvatar } from "../middlewares/multer.js"
 import { isAuthenticated } from "../middlewares/auth.js";
-import { newGroupChat, getMyChats, getMyGroup } from "../controllers/chat.js";
+import { newGroupChat, getMyChats, getMyGroup, addMembers } from "../controllers/chat.js";
 
 const app = express.Router();
 
@@ -14,7 +14,7 @@ app.use(isAuthenticated)
 app.post("/new", newGroupChat)
 app.get("/my", getMyChats)
 app.get("/my/groups", getMyGroup)
-app.put("/addmembers", getMyGroup)
+app.put("/addmembers", addMembers)
 
 
 export default app;
