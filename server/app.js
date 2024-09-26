@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
 import { createUser } from "./seeders/user.js";
+import { getMyChats } from "./controllers/chat.js";
 
 // Load environment variables
 dotenv.config({
@@ -17,7 +18,7 @@ const port = process.env.PORT || 3000;
 
 // Connect to the database
 connectDB(MONGO_URI);
-// createUser(15);
+// createUser(5);
 
 const app = express();
 
@@ -25,7 +26,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 // Enable urlencoded with proper configuration
-app.use(express.urlencoded({ extended: true })); // Needed for parsing URL-encoded data
+// app.use(express.urlencoded({ extended: true })); // Needed for parsing URL-encoded data
 
 // Routes
 // Use userRoute for /user only

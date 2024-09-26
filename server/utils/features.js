@@ -38,8 +38,8 @@ const sendToken = (res, user, code, message) => {
 }
 
 
-const emmitEvent = (req,event,user,data)=>{
+const emitEvent = (req,event,user,data)=>{
         console.log("emmitng event",event)
 }
 
-export { connectDB, sendToken, cookieOption,emmitEvent }
+export { connectDB, sendToken, cookieOption,emitEvent }

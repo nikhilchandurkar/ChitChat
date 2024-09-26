@@ -15,7 +15,7 @@ const createUser = async (numUsers) => {
                 avatar: { 
                     url: faker.image.avatar(),
                     public_id: faker.system.fileName(),
-                  },
+                  }, 
             });
             userPromise.push(tempUser);
             await Promise.all(userPromise)

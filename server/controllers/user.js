@@ -9,8 +9,8 @@ const newUser = tryCatch(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
 
     const avatar = {
-        public_id,
-        url,
+        public_id:"empty",
+        url:"jhjjghgh",
     };
 
     // Check if username already exists
