@@ -13,9 +13,9 @@ const RenderAttachment = ({ file, url }) => {
             return <audio src={url} preload='none' controls />
 
         case "image":
-            return <image src={transformImage(url, 200)}
+            return <img 
+                src={transformImage(url, 200)}
                 alt={"attachment"}
-                preload='none'
                 width={"200px"}
                 height={"150px"}
                 style={{
@@ -28,4 +28,4 @@ const RenderAttachment = ({ file, url }) => {
     }
 }
 
-export default RenderAttachment
+export default RenderAttachment;

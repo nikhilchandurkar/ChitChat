@@ -6,6 +6,8 @@ import ChatList from '../specific/ChatList';
 import sampleChats from '../../constants/sampleData'
 import { useParams } from 'react-router-dom';
 import Profile from '../specific/Profile';
+
+
 const AppLayout = () => (WrappedComponent) => {
 
   return (props) => {
@@ -24,7 +26,7 @@ const AppLayout = () => (WrappedComponent) => {
 
         <Grid container height={"calc(100vh - 4rem)"}>
           <Grid item height={"100%"}
-          
+
             sm={4}
             md={3}
             lg={3}
@@ -37,7 +39,7 @@ const AppLayout = () => (WrappedComponent) => {
               handleDeleteChat={handleDeleteChats}
               chats={sampleChats}
               chatId={chatId}
-              onlineUsers={["0","1","2","3"]}
+              onlineUsers={["0", "1", "2", "3"]}
 
             />
 
@@ -64,7 +66,7 @@ const AppLayout = () => (WrappedComponent) => {
               bgcolor: "rgba(0,0,0,1)",
             }}
           >
-            <Profile/>
+            <Profile />
           </Grid>
         </Grid>
 

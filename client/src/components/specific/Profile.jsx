@@ -1,42 +1,46 @@
-import React from 'react'
-import { Avatar, Stack, Typography } from '@mui/material'
+import React from 'react';
+import { Avatar, Stack, Typography } from '@mui/material';
 import {
-    Face as FaceIocn,
+    Face as FaceIcon, // Fixed typo
     AlternateEmail as UsernameIcon,
     CalendarMonth as CalenderIcon,
-} from "@mui/icons-material"
-import moment from "moment"
+} from "@mui/icons-material";
+import moment from "moment";
+
 const Profile = () => {
     return (
         <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
             <Avatar
                 sx={{
-                    width: 200, height: 200,
+                    width: 200,
+                    height: 200,
                     objectFit: "cover",
-                    marginBottom: "1 rem",
-                    border: "5px solid white"
+                    marginBottom: "1rem", // Fixed extra space issue
+                    border: "5px solid white",
                 }}
             />
-            <ProfileCard heading={"bio"}
-                text={"its me"}
+            <ProfileCard heading={"bio"} text={"its me"} />
+
+            <ProfileCard
+                heading={"username"}
+                text={"nikhilChandurkar"}
+                Icon={UsernameIcon}
             />
 
-            <ProfileCard heading={"username"} text={"nikhilChandurkar"}
-                Icon={UsernameIcon} >
-            </ProfileCard>
-
-            <ProfileCard heading={"Name"} text={"Nikhil Chandurkar"}
-                Icon={FaceIocn}
+            <ProfileCard
+                heading={"Name"}
+                text={"Nikhil Chandurkar"}
+                Icon={FaceIcon} // Corrected typo
             />
 
-            <ProfileCard heading={"joined"}
-                text={moment(`2024-08-15T00:00:00.000Z`).fromNow()}
+            <ProfileCard
+                heading={"joined"}
+                text={moment("2024-08-15T00:00:00.000Z").fromNow()}
                 Icon={CalenderIcon}
             />
         </Stack>
-    )
-}
-
+    );
+};
 
 const ProfileCard = ({ text, Icon, heading }) => (
     <Stack
@@ -45,16 +49,13 @@ const ProfileCard = ({ text, Icon, heading }) => (
         alignItems={"center"}
         color={"white"}
         textAlign={"center"}
-
     >
-        {Icon && <Icon />}
+        {Icon && <Icon />} {/* Ensure Icon is rendered only if it exists */}
         <Stack>
             <Typography variant='body1'>{text}</Typography>
             <Typography variant='caption' color={"gray"}>{heading}</Typography>
         </Stack>
-
     </Stack>
-)
+);
 
-
-export default Profile
+export default Profile;
