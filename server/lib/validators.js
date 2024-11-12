@@ -1,6 +1,11 @@
-import { body, check, validationResult } from 'express-validator'
-import { ErrorHandler } from '../utils/utility.js   ';
-
+import { ErrorHandler } from '../utils/utility.js';
+import {
+    body,
+    check,
+    param,
+    query,
+    validationResult
+} from 'express-validator'
 
 const validateHandler = (req, res, next) => {
     const errors = validationResult(req);
@@ -9,6 +14,10 @@ const validateHandler = (req, res, next) => {
     if (errors.isEmpty()) return next();
     else next(new ErrorHandler(errorMessage, 400));
 }
+
+const chatIdValidator = () => [param("id", "please enter chat ID ").notEmpty()]
+
+const nameValidator = () => [param("name", "please enter name ").notEmpty()]
 
 const registerValidator = () => [
     body("name", "please enter name").notEmpty(),
@@ -25,24 +34,42 @@ const loginValidator = () => [
 const newGroupValidator = () => [
     body("name", "please enter name ").notEmpty(),
     body("members", "please add members")
-    .notEmpty().withMessage("enter member in group ")
-    .isArray({min:2, max:100})
-    .withMessage("members must between 2 to 100")
+        .notEmpty().withMessage("enter member in group ")
+        .isArray({ min: 2, max: 100 })
+        .withMessage("members must between 2 to 100")
 ]
 
 const addMembersValidator = () => [
     body("chatId", "please enter chat ID ").notEmpty(),
     body("members", "please add members")
-    .notEmpty().withMessage("enter member in group ")
-    .isArray({min:1, max:97})
-    .withMessage("members must between 1 to 97")
+        .notEmpty().withMessage("enter member in group ")
+        .isArray({ min: 1, max: 97 })
+        .withMessage("members must between 1 to 97")
 ]
 
 const removeMembersValidator = () => [
     body("chatId", "please enter chat ID ").notEmpty(),
     body("userId", "please enter user ID ").notEmpty(),
-    
+
 ]
+
+const sendAttachmentValidator = () => [
+    body("id", "please enter chat ID ").notEmpty(),
+    check("files",).notEmpty()
+        .withMessage("please upload attachment ")
+        .isArray({ min: 1, max: 5 })
+        .withMessage("attachment must be between 1 to 5")
+
+]
+const renameGrouptValidator = () => [
+    param("id", "please enter chat ID ").notEmpty(),
+    body("name", "please enter new name ").notEmpty(),
+   
+    ]
+
+
+
+
 
 export {
     validateHandler,
@@ -51,4 +78,7 @@ export {
     newGroupValidator,
     addMembersValidator,
     removeMembersValidator,
+    sendAttachmentValidator,
+    chatIdValidator,
+    renameGrouptValidator,
 }

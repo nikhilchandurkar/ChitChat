@@ -76,20 +76,21 @@ const logout = tryCatch(async (req, res, next) => {
     });
 });
 
-const searchUser = async (req, res, next) => {
-    try {
-        const { query } = req.query;
 
-        res.status(200).json({
-            success: true,
-            message: query,
+const searchUser = tryCatch(async (req, res,next)=>{
+    const { name } = req.query;
 
-        });
-    } catch (error) {
-        console.log(error)
-        next(error);
-    }
-};
+    const myChat = await User.find({
+        
+    })
+
+    res.status(200).json({
+        success: true,
+        message: name,
+
+    });
+
+})
 
 
 export {
