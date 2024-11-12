@@ -5,13 +5,13 @@ const schema = new Schema(
    {
       status: {
          type: String,
-         default: "prending",
+         default: "pending",
          enum: ["pending", "accepted", "rejected"]
       },
      
 
       sender: {
-         type: Types.ObjectID,
+         type: Types.ObjectId,
          ref: "User",
          required: true
       },

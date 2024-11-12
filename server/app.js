@@ -5,7 +5,7 @@ import { connectDB } from "./utils/features.js";
 import dotenv from "dotenv";
 import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
-import { createUser } from "./seeders/user.js";
+import { createSingleChats, createUser } from "./seeders/user.js";
 import { getMyChats } from "./controllers/chat.js";
 
 // Load environment variables
@@ -19,6 +19,7 @@ const port = process.env.PORT || 3000;
 // Connect to the database
 connectDB(MONGO_URI);
 // createUser(5);
+// createSingleChats(5);
 
 const app = express();
 

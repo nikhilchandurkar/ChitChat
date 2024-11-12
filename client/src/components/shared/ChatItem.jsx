@@ -1,47 +1,49 @@
-import React, { memo } from 'react'
-import { Link } from "../styles/StyledComponents"
-import { Stack } from '@mui/system'
-import { Typography, Box } from '@mui/material'
-import AvatarCard from './AvatarCard'
+import React, { memo } from 'react';
+import { Link } from "../styles/StyledComponents";
+import { Stack } from '@mui/system';
+import { Typography, Box } from '@mui/material';
+import AvatarCard from './AvatarCard';
 
-const ChatItem = (
-  {
-    avatar = [],
-    name,
-    _id,
-    groupchat = false,
-    sameSender,
-    isOnline,
-    newMessageAlert,
-    index = 0,
-    handleDeleteChat, // Corrected spelling
-  }
-) => {
+const ChatItem = ({
+  avatar = [],
+  name,
+  _id,
+  groupchat = false,
+  sameSender,
+  isOnline,
+  newMessageAlert,
+  index = 0,
+  handleDeleteChat,
+}) => {
   return (
     <div>
       <Link
         sx={{ padding: "0" }}
         to={`/chat/${_id}`}
-        onContextMenu={(e) => handleDeleteChat(e, _id, groupchat)} // Corrected spelling
+        onContextMenu={(e) => handleDeleteChat(e, _id, groupchat)}
+        aria-label={`Chat with ${name}`}
       >
         <div
           style={{
             display: "flex",
             padding: "1rem",
             alignItems: "center",
-            backgroundColor: sameSender ? "black" : "unset",
+            backgroundColor: sameSender ? "#f0f0f0" : "unset",
             color: sameSender ? "black" : "unset",
             borderRadius: "5px",
             position: "relative",
-          }}>
+          }}
+        >
           <AvatarCard avatar={avatar} />
 
           <Stack sx={{ p: "0" }}>
-            <Typography color={"black"}>
+            <Typography color="black">
               {name}
             </Typography>
             {newMessageAlert && (
-              <Typography>{newMessageAlert.count} New Message</Typography> 
+              <Typography color="primary" fontWeight="bold">
+                {newMessageAlert.count} New Message{newMessageAlert.count > 1 ? 's' : ''}
+              </Typography>
             )}
           </Stack>
 
@@ -50,19 +52,21 @@ const ChatItem = (
               sx={{
                 width: "10px",
                 height: "10px",
-                borderRadius: "10px",
+                borderRadius: "50%",
                 backgroundColor: "green",
                 position: "absolute",
                 top: "50%",
                 right: "1rem",
-                transform: "translateY(-50%)", 
+                transform: "translateY(-50%)",
               }}
+              aria-label="User is online"
+              role="status"
             />
           )}
         </div>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 export default memo(ChatItem);

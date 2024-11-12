@@ -18,6 +18,7 @@ const AppLayout = () => (WrappedComponent) => {
       console.log("deleteChat", _id, groupChat);
     }
 
+
     return (
       <>
         <title title='chat App' />
@@ -26,7 +27,6 @@ const AppLayout = () => (WrappedComponent) => {
 
         <Grid container height={"calc(100vh - 4rem)"}>
           <Grid item height={"100%"}
-
             sm={4}
             md={3}
             lg={3}
@@ -34,17 +34,13 @@ const AppLayout = () => (WrappedComponent) => {
               display: { xs: "none", sm: "block" },
             }}
           >
-
             <ChatList
               handleDeleteChat={handleDeleteChats}
               chats={sampleChats}
               chatId={chatId}
               onlineUsers={["0", "1", "2", "3"]}
-
             />
-
           </Grid>
-
           <Grid item
             xs={12}
             sm={8}
@@ -53,7 +49,6 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
           >
             <WrappedComponent {...props} />
-
 
           </Grid>
 
@@ -69,11 +64,8 @@ const AppLayout = () => (WrappedComponent) => {
             <Profile />
           </Grid>
         </Grid>
-
       </>
-
     )
-
   }
 }
 

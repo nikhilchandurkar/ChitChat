@@ -12,6 +12,7 @@ const schema = new Schema({
     creator: {
         type: Types.ObjectId,
         ref: "User",
+        
     },
     members: [{
         type: Types.ObjectId,

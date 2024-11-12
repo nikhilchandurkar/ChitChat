@@ -31,11 +31,23 @@ const schema = new Schema({
    timestamps: true
 });
 
-// password hashing
+// // password hashing
+//  schema.pre("save", async function (next) {
+//    if (!this.isModified("password")) return next(); // Call next only when password is not modified
+//    this.password = await hash(this.password, 10);
+//    next(); // Call next after password is hashed
+// });
+
 schema.pre("save", async function (next) {
-   if (!this.isModified("password")) return next(); // Call next only when password is not modified
-   this.password = await hash(this.password, 10);
-   next(); // Call next after password is hashed
+   try {
+      if (this.isModified("password")) {
+         this.password = await hash(this.password, 10);
+      }
+      next();
+   } catch (err) {
+      next(err); // Pass error to next middleware
+   }
 });
+
 
 export const User = mongoose.models.User || model("User", schema);

@@ -5,7 +5,7 @@ const cookieOption = {
     maxAge: 15 * 24 * 60 * 60 * 1000,
     sameSite: "none",
     httpOnly: true,
-    secure: true  
+    secure: false  
      //change in production
     // secure: process.env.secureCookieOption
 
@@ -37,9 +37,12 @@ const sendToken = (res, user, code, message) => {
 
 }
 
-
 const emitEvent = (req,event,user,data)=>{
         console.log("emmitng event",event)
 }
 
-export { connectDB, sendToken, cookieOption,emitEvent }
+const  deleteFilesFromCloudnary = async(public_ids)=>{
+
+}
+
+export { connectDB, sendToken, cookieOption,emitEvent, deleteFilesFromCloudnary };

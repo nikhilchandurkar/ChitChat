@@ -23,7 +23,7 @@ const MessageComponent = ({ message, user }) => {
                 width: "fit-content",
                 padding: "0.5rem", // Added padding for better appearance
             }}
-        >
+        > 
             {!sameSender && (
                 <Typography color={lightblue} fontWeight={"600"} variant='caption'>
                     {sender.name}

@@ -4,7 +4,7 @@ import mongoose,{ Schema, model,Types } from "mongoose";
 const schema = new Schema(
    {
       content: String,
-      attachment: [{
+      attachments: [{
          public_id: {
             type: String,
             required: true,
@@ -17,13 +17,13 @@ const schema = new Schema(
       ],
 
       sender: {
-         type: Types.ObjectID,
+         type: Types.ObjectId,
          ref: "User",
          required: true
       },
       chat: {
          type: Types.ObjectId,
-         ref: "User",
+         ref: "Chat",
          required: true
       },
 

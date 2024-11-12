@@ -9,8 +9,8 @@ const newUser = tryCatch(async (req, res, next) => {
     const { name, username, password, bio } = req.body;
 
     const avatar = {
-        public_id:"empty",
-        url:"jhjjghgh",
+        public_id: "empty",
+        url: "jhjjghgh",
     };
 
     // Check if username already exists
@@ -83,13 +83,19 @@ const searchUser = async (req, res, next) => {
         res.status(200).json({
             success: true,
             message: query,
-            
+
         });
     } catch (error) {
         console.log(error)
-        next(error); 
+        next(error);
     }
 };
 
 
-export { login, newUser, getMyProfile, logout, searchUser };
+export {
+    login,
+    newUser,
+    getMyProfile,
+    logout,
+    searchUser
+};
