@@ -1,11 +1,17 @@
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import express from "express"; // Import express properly
+import express from "express"; 
+
 import { errorMiddleware } from "./middlewares/error.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
 import { connectDB } from "./utils/features.js";
-import { createFakeMessages } from "./seeders/user.js";
+import {
+    createFakeMessages,
+    createSingleChats,
+    createUser,
+    fakeGroupChats
+} from "./seeders/seeder.js";
 
 // Load environment variables
 dotenv.config({
@@ -17,28 +23,29 @@ const port = process.env.PORT || 3000;
 
 // Connect to the database
 connectDB(MONGO_URI);
-// createUser(5);
-// createSingleChats(5);
+
+// seeders call
+// createUser(3);
+// createSingleChats(3);
+// createFakeMessages(10);
+// fakeGroupChats(2);
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
+
 app.use(cookieParser());
 // Enable urlencoded with proper configuration
 // app.use(express.urlencoded({ extended: true })); // Needed for parsing URL-encoded data
 
 // Routes
-// Use userRoute for /user only
-app.use("/user", userRoute); 
-// Use userRoute for /chat only
+app.use("/user", userRoute);
 
 app.use("/chat", chatRoute);
 
 // Put this middleware at the end
 app.use(errorMiddleware);
-
-// createFakeMessages(10);
 
 // Start the server
 app.listen(port, () => {

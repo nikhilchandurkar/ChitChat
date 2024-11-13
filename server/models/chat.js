@@ -7,7 +7,7 @@ const schema = new Schema({
     },
     groupChat: {  
         type: Boolean,
-        default: true,
+        default: false,
     },
     creator: {
         type: Types.ObjectId,

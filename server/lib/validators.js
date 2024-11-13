@@ -1,11 +1,10 @@
-import { ErrorHandler } from '../utils/utility.js';
 import {
     body,
     check,
     param,
-    query,
     validationResult
-} from 'express-validator'
+} from 'express-validator';
+import { ErrorHandler } from '../utils/utility.js';
 
 const validateHandler = (req, res, next) => {
     const errors = validationResult(req);
@@ -64,21 +63,35 @@ const sendAttachmentValidator = () => [
 const renameGrouptValidator = () => [
     param("id", "please enter chat ID ").notEmpty(),
     body("name", "please enter new name ").notEmpty(),
-   
-    ]
 
+]
 
+const sendFriendRequestValidator = () => [
+    body("userId", "please enter user ID").notEmpty(),
+]
 
-
+const acceptFriendRequestValidator = () => [
+    body("requestId")
+        .notEmpty()
+        .withMessage("please enter request ID"),
+    body("request")
+        .notEmpty()
+        .withMessage("please add accept")
+        .isBoolean()
+        .withMessage("Accept must be a boolean")
+] 
 
 export {
-    validateHandler,
-    registerValidator,
+    addMembersValidator,
+    chatIdValidator,
     loginValidator,
     newGroupValidator,
-    addMembersValidator,
+    registerValidator,
     removeMembersValidator,
-    sendAttachmentValidator,
-    chatIdValidator,
     renameGrouptValidator,
-}
+    sendAttachmentValidator,
+    sendFriendRequestValidator,
+    validateHandler,
+    acceptFriendRequestValidator,
+};
+

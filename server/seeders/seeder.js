@@ -1,7 +1,7 @@
+import { faker } from "@faker-js/faker";
 import { Chat } from "../models/chat.js";
 import { Message } from "../models/message.js";
 import { User } from "../models/user.js";
-import { faker, simpleFaker } from "@faker-js/faker"
 
 
 const createUser = async (numUsers) => {
@@ -41,7 +41,7 @@ const createSingleChats = async (chatsCount) => {
                 chatsPromise.push(
                     Chat.create({
                         name: faker.lorem.words(32),
-                        members: [users[i]._id, users[j]._id]
+                        groupChat:false
                     })
                 );
 
@@ -60,35 +60,47 @@ const createSingleChats = async (chatsCount) => {
     }
 };
 
-const createGroupChat = async(numChats) =>{
+
+const fakeGroupChats = async (chatsCount) => {
     try {
-        const user =await User.find().select("_id");
+
+        const users = await User.find().select("_id");
+
         const chatsPromise = [];
-        for (let i = 0; i < numChats; i++) {
-            const numMembers = simpleFaker.number.int({
-                min:3, max:user.length
-            })
-            const members = [];
-            for (let i = 0; j < numChats; i++) {
-                
-                
+        for (let i = 0; i < users.length; i++) {
+            for (let j = 0; j < users.length; j++) {
+                chatsPromise.push(
+                    Chat.create({
+                        name: faker.lorem.words(32),
+                        groupChat:true,
+                    members:["673468f524673a43795c0cdc","673468fa83d6663dd4e500d8"]
+                    })
+                );
+
             }
-            
         }
 
+        // Execute all chat creations in parallel
+        await Promise.all(chatsPromise);
 
-    } catch (error) {
-        console.log(error);
+        console.log("Sample chats created successfully");
+        process.exit();
+
+    } catch (err) {
+        console.error("Error creating sample chats:", err);
+        process.exit(1);
     }
-}
+};
+
+
 
 const createFakeMessages = async (count) => {
     const fakeMessages = Array.from({ length: count }, () => ({
       content: faker.lorem.sentence(),
       attachments: [
       ], 
-      sender: "672f3510f7897fa03244a514",
-    chat: "6731f4849044ec83bb400fb3",
+      sender: "673464d7bc6117b191eedacb",
+    chat: "67346975b1a3b4eaaa1c3cbe",
     }));
   
     await Message.insertMany(fakeMessages);
@@ -96,7 +108,7 @@ const createFakeMessages = async (count) => {
   };
 
 
-export { createUser, createSingleChats, createFakeMessages }
+export {  createFakeMessages, createSingleChats, createUser,fakeGroupChats };
 
 
 
