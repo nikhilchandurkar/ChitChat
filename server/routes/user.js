@@ -4,6 +4,7 @@ import { singleAvatar } from "../middlewares/multer.js";
 
 import {
     acceptFriendRequest,
+    getMyAllFriends,
     getMyProfile,
     getNotifications,
     login,
@@ -47,6 +48,8 @@ app.put("/acceptrequest",
     acceptFriendRequest)
 
 app.get("/notifications", getNotifications);
+
+app.get("/friends" , getMyAllFriends)
 
 
 

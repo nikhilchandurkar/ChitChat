@@ -11,6 +11,7 @@ import {
     sendToken
 } from "../utils/features.js";
 import { request } from "express";
+import { getOtherMembers } from "../lib/helper.js";
 
 
 // Create new user, save in DB, and set a cookie
@@ -211,6 +212,44 @@ const getNotifications = tryCatch(async (req, res,next) => {
     });
 });
 
+const getMyAllFriends = tryCatch(async (req, res,next) => {
+   const  chatId = req.query; 
+
+   const chats  = await Chat.find({
+    members : req.user,
+    GroupChat:false
+ }).populate("members" , "name avatar");
+
+ const friends = chats.map(({ members }) => {
+    const otherUser  = getOtherMembers(members, req.user)
+    return {
+        _id:otherUser._id,
+        name:otherUser.name,
+        avatar:otherUser.avatar.url
+    }
+
+ });
+
+    if (chatId) {
+        const chat = await Chat.findById(chatId);
+        const availableFriends = friends.filter(
+            (friend)=> !chat.members.includes(friend._id)
+        )
+        res.status(200).json({
+            success: true,
+            friends:availableFriends
+        });
+        
+    } else {
+        res.status(200).json({
+            success: true,
+            friends
+        });
+        
+    }
+
+});
+
 
 export {
     getMyProfile,
@@ -221,6 +260,7 @@ export {
     sendFriendRequest,
     acceptFriendRequest,
     getNotifications,
+    getMyAllFriends,
 
 }
 
