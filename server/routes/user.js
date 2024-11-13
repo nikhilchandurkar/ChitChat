@@ -23,7 +23,7 @@ app.post("/login", loginValidator(), validateHandler, login)
 app.use(isAuthenticated)
 
 app.get("/me", getMyProfile)
-app.get("/search ", searchUser)
+app.get("/search", searchUser)
 app.post("/logout ", logout)
 
 export default app;

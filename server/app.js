@@ -1,12 +1,11 @@
-import express from "express"; // Import express properly
-import userRoute from "./routes/user.js";
-import chatRoute from "./routes/chat.js"
-import { connectDB } from "./utils/features.js";
-import dotenv from "dotenv";
-import { errorMiddleware } from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
-import { createSingleChats, createUser } from "./seeders/user.js";
-import { getMyChats } from "./controllers/chat.js";
+import dotenv from "dotenv";
+import express from "express"; // Import express properly
+import { errorMiddleware } from "./middlewares/error.js";
+import chatRoute from "./routes/chat.js";
+import userRoute from "./routes/user.js";
+import { connectDB } from "./utils/features.js";
+import { createFakeMessages } from "./seeders/user.js";
 
 // Load environment variables
 dotenv.config({
@@ -38,6 +37,8 @@ app.use("/chat", chatRoute);
 
 // Put this middleware at the end
 app.use(errorMiddleware);
+
+// createFakeMessages(10);
 
 // Start the server
 app.listen(port, () => {

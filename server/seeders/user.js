@@ -1,4 +1,5 @@
 import { Chat } from "../models/chat.js";
+import { Message } from "../models/message.js";
 import { User } from "../models/user.js";
 import { faker, simpleFaker } from "@faker-js/faker"
 
@@ -81,10 +82,21 @@ const createGroupChat = async(numChats) =>{
     }
 }
 
+const createFakeMessages = async (count) => {
+    const fakeMessages = Array.from({ length: count }, () => ({
+      content: faker.lorem.sentence(),
+      attachments: [
+      ], 
+      sender: "672f3510f7897fa03244a514",
+    chat: "6731f4849044ec83bb400fb3",
+    }));
+  
+    await Message.insertMany(fakeMessages);
+    console.log(`${count} fake messages inserted successfully!`);
+  };
 
 
-
-export { createUser, createSingleChats,  }
+export { createUser, createSingleChats, createFakeMessages }
 
 
 

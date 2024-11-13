@@ -1,7 +1,7 @@
-import { User } from "../models/user.js";
-import { cookieOption, sendToken } from "../utils/features.js";
 import { compare } from "bcrypt";
 import { tryCatch } from "../middlewares/error.js";
+import { User } from "../models/user.js";
+import { cookieOption, sendToken } from "../utils/features.js";
 import { ErrorHandler } from "../utils/utility.js";
 
 // Create new user, save in DB, and set a cookie
@@ -77,26 +77,29 @@ const logout = tryCatch(async (req, res, next) => {
 });
 
 
-const searchUser = tryCatch(async (req, res,next)=>{
+const searchUser = tryCatch(async (req, res, next) => {
     const { name } = req.query;
+    //  searching for all groupchat
+    const myChat = await User.find(
+        // {
+        //     groupChat: false,
+        //     members: req.user,
+        // }
+    )
 
-    const myChat = await User.find({
-        
-    })
+    const allUsersFromMyChats = myChat.flatMap((chat) => chat.members)
 
     res.status(200).json({
         success: true,
         message: name,
-
+        myChat,
+        allUsersFromMyChats
     });
+
+
 
 })
 
 
-export {
-    login,
-    newUser,
-    getMyProfile,
-    logout,
-    searchUser
-};
+export { getMyProfile, login, logout, newUser, searchUser };
+

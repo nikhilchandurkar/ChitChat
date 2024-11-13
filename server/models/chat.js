@@ -5,7 +5,7 @@ const schema = new Schema({
         type: String,
         required: true,
     },
-    groupChat: {  // Corrected to groupChat to match the controller logic
+    groupChat: {  
         type: Boolean,
         default: true,
     },
@@ -22,5 +22,11 @@ const schema = new Schema({
 }, {
     timestamps: true
 });
+// optional 
+/*
+schema.index({ creator: 1 });
+schema.index({ members: 1 });
+ */
+ 
 
 export const Chat = mongoose.models.Chat || model("Chat", schema);  
