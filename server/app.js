@@ -1,17 +1,12 @@
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import express from "express"; 
+import express from "express";
 
 import { errorMiddleware } from "./middlewares/error.js";
+import adminRoute from "./routes/admin.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
 import { connectDB } from "./utils/features.js";
-import {
-    createFakeMessages,
-    createSingleChats,
-    createUser,
-    fakeGroupChats
-} from "./seeders/seeder.js";
 
 // Load environment variables
 dotenv.config({
@@ -43,6 +38,8 @@ app.use(cookieParser());
 app.use("/user", userRoute);
 
 app.use("/chat", chatRoute);
+
+app.use("/admin",adminRoute)
 
 // Put this middleware at the end
 app.use(errorMiddleware);

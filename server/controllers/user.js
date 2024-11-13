@@ -15,7 +15,7 @@ import { getOtherMembers } from "../lib/helper.js";
 
 
 // Create new user, save in DB, and set a cookie
-const newUser = tryCatch(async (req, res) => {
+const newUser = tryCatch(async (req, res,next) => {
     const { name, username, password, bio } = req.body;
 
     const avatar = {
@@ -42,7 +42,7 @@ const newUser = tryCatch(async (req, res) => {
 });
 
 // Login user
-const login = tryCatch(async (req, res) => {
+const login = tryCatch(async (req, res,next) => {
     const { username, password } = req.body;
 
     // Fetch user and select password field explicitly
@@ -212,42 +212,45 @@ const getNotifications = tryCatch(async (req, res,next) => {
     });
 });
 
-const getMyAllFriends = tryCatch(async (req, res,next) => {
-   const  chatId = req.query; 
+const getMyAllFriends = tryCatch(async (req, res, next) => {
+    const { chatId } = req.query;
 
-   const chats  = await Chat.find({
-    members : req.user,
-    GroupChat:false
- }).populate("members" , "name avatar");
+    const chats = await Chat.find({
+        members: req.user,
+        GroupChat: false
+    }).populate("members", "name avatar");
 
- const friends = chats.map(({ members }) => {
-    const otherUser  = getOtherMembers(members, req.user)
-    return {
-        _id:otherUser._id,
-        name:otherUser.name,
-        avatar:otherUser.avatar.url
-    }
-
- });
+    const friends = chats.map(({ members }) => {
+        const otherUser = getOtherMembers(members, req.user);
+        if (!otherUser) return null; // Skip if no other user found
+        return {
+            _id: otherUser._id,
+            name: otherUser.name,
+            avatar: otherUser.avatar?.url || null
+        };
+    }).filter(Boolean); // Remove any null entries from the array
 
     if (chatId) {
         const chat = await Chat.findById(chatId);
+        if (!chat) {
+            return res.status(404).json({
+                success: false,
+                message: "Chat not found"
+            });
+        }
         const availableFriends = friends.filter(
-            (friend)=> !chat.members.includes(friend._id)
-        )
-        res.status(200).json({
+            (friend) => !chat.members.includes(friend._id)
+        );
+        return res.status(200).json({
             success: true,
-            friends:availableFriends
+            friends: availableFriends
         });
-        
-    } else {
-        res.status(200).json({
-            success: true,
-            friends
-        });
-        
     }
 
+    res.status(200).json({
+        success: true,
+        friends
+    });
 });
 
 
