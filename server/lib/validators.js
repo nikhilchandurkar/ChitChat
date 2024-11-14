@@ -79,7 +79,14 @@ const acceptFriendRequestValidator = () => [
         .withMessage("please add accept")
         .isBoolean()
         .withMessage("Accept must be a boolean")
-] 
+]
+
+const adminLoginValidator = () => [
+    body("secretKey")
+        .notEmpty()
+        .withMessage("please enter secret key"),
+
+]
 
 export {
     addMembersValidator,
@@ -93,5 +100,6 @@ export {
     sendFriendRequestValidator,
     validateHandler,
     acceptFriendRequestValidator,
+    adminLoginValidator,
 };
 

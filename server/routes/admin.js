@@ -1,20 +1,31 @@
 
-
 import express from "express";
-import { isAuthenticated } from "../middlewares/auth.js";
+import { addMembersValidator, validateHandler } from "../lib/validators.js";
+import {
+    adminLogin,
+    allChats,
+    allMessages,
+    allUsers,
+    getDashboardStats
+} from "../controllers/admin.js";
+
 
 const app = express.Router();
-app.post("/newAdmin")
+app.post("/")
 
-app.post("/Adminlogin")
+app.get("/")
 
+app.get("/verify",addMembersValidator(),validateHandler ,adminLogin);
 
-app.use(isAuthenticated)
+app.post("/logout")
 
+app.get("/users", allUsers);
 
+app.get("/chats", allChats)
 
+app.get("/messages",allMessages)
 
-
+app.get("/stats", getDashboardStats)
 
 
 export default app;
