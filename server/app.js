@@ -1,50 +1,47 @@
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import express from "express";
-
 import { errorMiddleware } from "./middlewares/error.js";
 import adminRoute from "./routes/admin.js";
 import chatRoute from "./routes/chat.js";
 import userRoute from "./routes/user.js";
 import { connectDB } from "./utils/features.js";
+import { Server } from "socket.io";
+import { createServer } from "http"; 
+import { Socket } from "dgram";
 
-// Load environment variables
 dotenv.config({
     path: "./.env"
 });
 
 const MONGO_URI = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
-
-// Connect to the database
 connectDB(MONGO_URI);
 
-// seeders call
-// createUser(3);
-// createSingleChats(3);
-// createFakeMessages(10);
-// fakeGroupChats(2);
-
 const app = express();
+const server = createServer(app); 
+const io = new Server(server, {});
 
-// Middlewares
+
 app.use(express.json());
-
 app.use(cookieParser());
-// Enable urlencoded with proper configuration
-// app.use(express.urlencoded({ extended: true })); // Needed for parsing URL-encoded data
 
-// Routes
 app.use("/user", userRoute);
-
 app.use("/chat", chatRoute);
+app.use("/admin", adminRoute);
 
-app.use("/admin",adminRoute)
+io.on("connection",(Socket)=>{
+    console.log("a user connected",Socket.id);
 
-// Put this middleware at the end
+    Socket.on("disconnected" ,()=>{
+        console.log("disconnected");
+    })
+})
+
+
 app.use(errorMiddleware);
 
 // Start the server
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running at port ${port} in ${process.env.NODE_ENV}`);
 });
