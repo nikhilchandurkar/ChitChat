@@ -208,7 +208,7 @@ const leaveGroup = tryCatch(async (req, res, next) => {
     emitEvent(req, REFETCH_CHATS, chat.members);
 })
 
-const sendAttachment = tryCatch(async (req, res, next) => {
+const sendAttachments = tryCatch(async (req, res, next) => {
 
     const { chatId } = req.body;
 
@@ -216,17 +216,25 @@ const sendAttachment = tryCatch(async (req, res, next) => {
         Chat.findById(chatId),
         User.findById(req.user, "name")
     ]);
+    // check("files",).notEmpty()
+    // .withMessage("please upload attachment ")
+    // .isArray({ min: 1, max: 5 })
+    // .withMessage("attachment must be between 1 to 5")
 
     if (!chat)
         return next(new ErrorHandler("Chat not found", 404));
 
     const files = req.files || [];
-    // 
+    //  
+
 
     // const attachments = [];
 
     if (!req.files || req.files.length < 1) {
         return next(new ErrorHandler("Please provide attachment", 400));
+    }
+    if (!req.files || req.files.length > 5) {
+        return next(new ErrorHandler("Please ", 400));
     }
     //  upload files 
     const attachments = [];
@@ -407,7 +415,7 @@ export {
     addMembers,
     removeMembers,
     leaveGroup,
-    sendAttachment,
+    sendAttachments,
     getChatDetails,
     renameGroup,
     deleteChats,

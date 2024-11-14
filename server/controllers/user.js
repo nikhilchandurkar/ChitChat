@@ -1,22 +1,25 @@
 import { compare } from "bcrypt";
-import { tryCatch } from "../middlewares/error.js";
-import { User } from "../models/user.js";
-import { Chat } from "../models/chat.js";
-import { ErrorHandler } from "../utils/utility.js";
-import { Request } from '../models/request.js'
 import { NEW_REQUEST, REFETCH_CHATS } from "../constants/events.js";
+import { getOtherMembers } from "../lib/helper.js";
+import { tryCatch } from "../middlewares/error.js";
+import { Chat } from "../models/chat.js";
+import { Request } from '../models/request.js';
+import { User } from "../models/user.js";
 import {
     cookieOption,
     emitEvent,
     sendToken
 } from "../utils/features.js";
-import { request } from "express";
-import { getOtherMembers } from "../lib/helper.js";
+import { ErrorHandler } from "../utils/utility.js";
 
 
 // Create new user, save in DB, and set a cookie
 const newUser = tryCatch(async (req, res,next) => {
     const { name, username, password, bio } = req.body;
+    
+    const file = req.file
+    console.log(file);
+    // if(!file) return next(new ErrorHandler("please upload avatar",));
 
     const avatar = {
         public_id: "empty",
@@ -255,15 +258,10 @@ const getMyAllFriends = tryCatch(async (req, res, next) => {
 
 
 export {
-    getMyProfile,
-    login,
+    acceptFriendRequest, getMyAllFriends, getMyProfile, getNotifications, login,
     logout,
     newUser,
     searchUser,
-    sendFriendRequest,
-    acceptFriendRequest,
-    getNotifications,
-    getMyAllFriends,
-
-}
+    sendFriendRequest
+};
 

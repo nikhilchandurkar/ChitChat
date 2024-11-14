@@ -25,5 +25,15 @@ const isAuthenticated =  (req,res,next)=>{
     next();
 }
 
-export {isAuthenticated}
+const adminOnly =  (req,res,next)=>{
+    const token = req.cookies['chitChat-admin-token'];
+    // if (!token) {
+    //     return next(new ErrorHandler("admin access only", 401))
+    // } 
+    const decodedData = jwt.verify(token,"adminadmin")  
+    req.user = decodedData._id; 
+    next();
+}
+
+export {isAuthenticated, adminOnly}
   

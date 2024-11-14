@@ -13,7 +13,7 @@ import {
     newGroupChat,
     removeMembers,
     renameGroup,
-    sendAttachment
+    sendAttachments
 } from "../controllers/chat.js";
 
 import {
@@ -52,7 +52,7 @@ app.post("/message",
     attachmentsMulter,
     sendAttachmentValidator(),
     validateHandler,
-    sendAttachment);
+    sendAttachments);
 
 // get messages 
 app.get("/message/:id", chatIdValidator(), validateHandler, getMessages);
