@@ -4,8 +4,8 @@ import { matBlack, orange } from '../constants/color';
 import {
   KeyboardBackspace as KeyboardBackspaceIcon,
   Menu as MenuIcon
+} from "@mui/icons-material";
 
-} from "@mui/icons-material"
 const Groups = () => {
 
   const IconBtns = (
@@ -38,6 +38,7 @@ const Groups = () => {
               bgcolor: "rgba(0,0,0,0.7)",
             },
           }}
+          // Uncomment and implement navigation logic if necessary
           // onClick={navigateBack}
         >
           <KeyboardBackspaceIcon />
@@ -46,17 +47,14 @@ const Groups = () => {
     </>
   )
 
-
   return (
-    <Grid container
-      height={"100vh"}>
+    <Grid container height={"100vh"}>
       <Grid
         item
-        //  xs={12}
         sm={4}
         sx={{
-          xs: "none", sm: "block",
-          bgcolor: "turquoise"
+          display: { xs: "none", sm: "block" },
+          bgcolor: "turquoise" // 
         }}
       >
         Groups list
@@ -74,13 +72,9 @@ const Groups = () => {
         }}
       >
         {IconBtns}
-
       </Grid>
     </Grid>
-  )
+  );
 }
 
-// export default AppLayout()(Groups);
-
 export default Groups;
-

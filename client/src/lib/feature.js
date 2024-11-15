@@ -1,6 +1,13 @@
 const fileFormat = (url = "") => {
-    const fileExt = url.split(".").pop().toLowerCase();
+    // Strip query parameters or fragments
+    const cleanUrl = url.split(/[?#]/)[0];
+    
+    const fileExt = cleanUrl.split(".").pop().toLowerCase();
     console.log(fileExt);
+
+    if (!fileExt) {
+        return "unknown";
+    }
 
     if (fileExt === "mp4" || fileExt === "webm" || fileExt === "ogg") {
         return "video";
@@ -17,6 +24,9 @@ const fileFormat = (url = "") => {
     return "file";
 };
 
-const transformImage = (url = "", width = 100) => url;
+const transformImage = (url = "", width = 100) => {
+    // You could add actual image transformation logic here, for now returning the URL
+    return `${url}?width=${width}`;
+};
 
 export { fileFormat, transformImage };

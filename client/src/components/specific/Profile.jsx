@@ -1,9 +1,9 @@
 import React from 'react';
 import { Avatar, Stack, Typography } from '@mui/material';
 import {
-    Face as FaceIcon, // Fixed typo
+    Face as FaceIcon,
     AlternateEmail as UsernameIcon,
-    CalendarMonth as CalenderIcon,
+    CalendarMonth as CalendarIcon,
 } from "@mui/icons-material";
 import moment from "moment";
 
@@ -11,18 +11,19 @@ const Profile = () => {
     return (
         <Stack spacing={"2rem"} direction={"column"} alignItems={"center"}>
             <Avatar
+                alt="User Profile Picture" // Added alt for accessibility
                 sx={{
                     width: 200,
                     height: 200,
                     objectFit: "cover",
-                    marginBottom: "1rem", // Fixed extra space issue
+                    marginBottom: "1rem",
                     border: "5px solid white",
                 }}
             />
-            <ProfileCard heading={"bio"} text={"its me"} />
+            <ProfileCard heading={"Bio"} text={"It's me"} />
 
             <ProfileCard
-                heading={"username"}
+                heading={"Username"}
                 text={"nikhilChandurkar"}
                 Icon={UsernameIcon}
             />
@@ -30,13 +31,13 @@ const Profile = () => {
             <ProfileCard
                 heading={"Name"}
                 text={"Nikhil Chandurkar"}
-                Icon={FaceIcon} // Corrected typo
+                Icon={FaceIcon}
             />
 
             <ProfileCard
-                heading={"joined"}
+                heading={"Joined"}
                 text={moment("2024-08-15T00:00:00.000Z").fromNow()}
-                Icon={CalenderIcon}
+                Icon={CalendarIcon}
             />
         </Stack>
     );
@@ -50,10 +51,14 @@ const ProfileCard = ({ text, Icon, heading }) => (
         color={"white"}
         textAlign={"center"}
     >
-        {Icon && <Icon />} {/* Ensure Icon is rendered only if it exists */}
+        {Icon && <Icon />}
         <Stack>
-            <Typography variant='body1'>{text}</Typography>
-            <Typography variant='caption' color={"gray"}>{heading}</Typography>
+            <Typography variant='body1' fontWeight={500}>
+                {text}
+            </Typography>
+            <Typography variant='caption' color={"gray"}>
+                {heading}
+            </Typography>
         </Stack>
     </Stack>
 );

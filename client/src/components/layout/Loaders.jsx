@@ -1,12 +1,12 @@
-import React from 'react'
-import { Grid, Skeleton, Stack } from '@mui/material'
+import React from 'react';
+import { Grid, Skeleton, Stack } from '@mui/material';
 
 export const LayoutLoader = () => {
   return (
     <Grid container height="calc(100vh - 4rem)" spacing={1}>
       
       {/* Sidebar Skeleton */}
-      <Grid item height="100%" sm={4} md={3} lg={3} sx={{ display: { xs: "none", sm: "block" } }}>
+      <Grid item xs={12} sm={4} md={3} lg={3} sx={{ display: { xs: "none", sm: "block" } }}>
         <Skeleton
           animation="wave"
           variant="rectangular"
@@ -31,7 +31,7 @@ export const LayoutLoader = () => {
       </Grid>
       
       {/* Profile Section Skeleton */}
-      <Grid item height="100%" md={4} lg={3} sx={{ display: { xs: "none", md: "block" } }}>
+      <Grid item xs={12} md={4} lg={3} sx={{ display: { xs: "none", md: "block" } }}>
         <Skeleton
           variant="rectangular"
           animation="pulse"

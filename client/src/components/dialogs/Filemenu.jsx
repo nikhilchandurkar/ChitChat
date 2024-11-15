@@ -1,17 +1,30 @@
-import { Menu } from '@mui/material'
-import React from 'react'
+import { Menu, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
 
-const Filemenu = ({ancherE1}) => {
+const Filemenu = ({ anchorEl, onClose }) => {
+  const [open, setOpen] = useState(false);
+
+  // Open the menu when anchorEl is provided
+  React.useEffect(() => {
+    if (anchorEl) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [anchorEl]);
+
   return (
-      <Menu  open={false}
-        anchorEl={ancherE1}
-      >
-        <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, ratione cupiditate omnis totam quos natus? Ex, labore aspernatur! Odit, ab non laudantium neque vero officiis dolorem vel repudiandae dolore itaque.
-        </div>
-      </Menu>
-
-  )
+    <Menu
+      anchorEl={anchorEl}
+      open={open}
+      onClose={onClose}
+      // Optional: onClick to close the menu
+    >
+      <MenuItem onClick={onClose}>Option 1</MenuItem>
+      <MenuItem onClick={onClose}>Option 2</MenuItem>
+      <MenuItem onClick={onClose}>Option 3</MenuItem>
+    </Menu>
+  );
 }
 
-export default Filemenu
+export default Filemenu;

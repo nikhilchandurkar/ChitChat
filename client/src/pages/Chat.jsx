@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import AppLayout from '../components/layout/AppLayout'
 import { IconButton, Stack } from '@mui/material';
 import { graycolor, orange } from '../constants/color';
@@ -15,9 +15,18 @@ const user = {
   name: "Nikkkkkkkiiiii"  
 }
 
-
 const Chat = () => {
+  const [message, setMessage] = useState("");
   const containerRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (message.trim()) {
+      // Handle sending message logic here, e.g., updating state or API call
+      console.log("Message Sent: ", message);
+      setMessage(""); // Clear input after sending
+    }
+  };
 
   return (
     <>
@@ -26,7 +35,6 @@ const Chat = () => {
         boxSizing={"border-box"}
         padding={"1rem"}
         spacing={"1rem"}
-        // bgcolor
         bgcolor={graycolor}
         height={"90%"}
         sx={{
@@ -34,47 +42,40 @@ const Chat = () => {
           overflowY: "auto",
         }}
       >
-
-        {
-          sampleMessages.map((i) => (
-            <MessageComponent 
+        {sampleMessages.map((i) => (
+          <MessageComponent 
             key={i._id}
             message={i}
-              user={user}
-              
-            />
-          ))}
-
+            user={user}
+          />
+        ))}
       </Stack>
+
       <form
+        onSubmit={handleSubmit}
         style={{
           height: "10%",
-
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <Stack direction={"row"}
-          height={"100%"}
-          padding={"1rem"}
-          alignItems={"center"}
-          position={"relative"}
-        >
-
-
+        <Stack direction={"row"} height={"100%"} padding={"1rem"} alignItems={"center"} position={"relative"} flex={1}>
           <IconButton sx={{
             position: "absolute",
             left: "1.5rem",
             rotate: "-30deg",
-            color: "secendory.main",
+            color: "secondary.main",
             "&:hover": {
-              bgcolor: "secendory.dark"
+              bgcolor: "secondary.dark"
             }
           }}>
             <AttachFileIcon />
           </IconButton>
 
-          {/* <InputBox  placeholder='Type a message here.....' /> */}
           <input
-            placeholder='....'
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type a message here..."
             style={{
               width: "100%",
               height: "100%",
@@ -83,10 +84,8 @@ const Chat = () => {
               padding: "0 3rem",
               borderRadius: "1.5rem",
               backgroundColor: graycolor,
-
             }}
-          >
-          </input>
+          />
 
           <IconButton type='submit'
             sx={{
@@ -100,13 +99,13 @@ const Chat = () => {
             }}
           >
             <SendIcon />
-          </IconButton >
+          </IconButton>
         </Stack>
       </form>
+
       <Filemenu />
-
     </>
-  )
-}
-export default AppLayout()(Chat);
+  );
+};
 
+export default AppLayout()(Chat);

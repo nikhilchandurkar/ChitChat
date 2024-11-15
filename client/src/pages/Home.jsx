@@ -1,22 +1,30 @@
 import React from 'react'
 import AppLayout from '../components/layout/AppLayout'
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { graycolor } from '../constants/color';
 
 const Home = () => {
   return (
-
-    <div style={{
-      backgroundColor:graycolor,
-      height:"100%"
-    }}>
-      <Typography 
-       variant='h5' p={"2rem"}
-       >
+    <Box
+      sx={{
+        backgroundColor: graycolor,
+        height: "100%",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Typography
+        variant='h5'
+        sx={{
+          padding: '2rem',
+          textAlign: 'center',
+        }}
+      >
         Select a friend to chat
       </Typography>
-    </div>
+    </Box>
   )
 }
-export default AppLayout()(Home);
 
+export default AppLayout()(Home);
